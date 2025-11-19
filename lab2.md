@@ -88,8 +88,8 @@ int main() {
 }
 ```
 ### 运行结果截图
-![Untitled](D:\3-1ppt\os\oslab_zsj\graph\2-1(1).png)
-![Untitled](D:\3-1ppt\os\oslab_zsj\graph\2-1(2).png)
+![Untitled](picture/2-1(1).png)
+![Untitled](picture/2-1(2).png)
 
 编写代码要考虑的问题：
 
@@ -267,8 +267,6 @@ kill命令在程序中使用了两次，分别用于向子进程1和子进程2�
 
 （ 2）根据流程图（如图 2.2 所示）和所给管道通信程序，按照注释里的要求把代码补充完整，运行程序，体会互斥锁的作用，比较有锁和无锁程序的运行结果，分析管道通信是如何实现同步与互斥的。
 
-![image-20231025155617546](lab2%5Cimage-20231025155617546.png)
-
 基本代码
 
 ```c
@@ -314,7 +312,8 @@ int main() {
 }
 ```
 #### 上述原代码的执行结果
-![Untitled](./picture/step2_1.png)
+![Untitled](picture/2.21.png)
+![Untitled](picture/2.22.png)
 在ls命令打印结果中可以看到有5个文件描述符，0，1，2分别对应标准输入，标准输出，标准错误输出，3和4分别对应管道的读端和写端。符合我们的预期，并且由于lockf函数的使用，管道通信是互斥的，子进程1和子进程2不会同时向管道写入数据，因此读出的数据是2000个'1'后跟2000个'2'。
 
 在这个程序中，我认为sleep是没有用处的，注释掉之后，输出结果与上述相同。
@@ -325,14 +324,9 @@ int main() {
 
 #### 注释掉lockf
 ##### 第一种情况仍然保留了sleep和wait
-![Untitled](./picture/step2_2.png)
 可以看到输出结果是交错的，说明两个子进程在没有锁的情况下同时向管道写入数据，导致读出的数据是混乱的。
 ##### 注释掉sleep和wait，运行结果相同
 
-#### 验证一下close的作用
-在其中一个子进程中也调用打印当前进程文件描述符的命令，结果如下：
-![Untitled](./picture/step2_3.png)
-可见close函数的作用是关闭文件描述符，使得该文件描述符不再可用。
 
 ### 问题回答
 (1)你最初认为运行结果会怎么样？
@@ -359,7 +353,7 @@ int main() {
 （3）运行所实现的算法，并通过对比，分析 2 种算法的优劣。
 （4）设计测试数据，观察 FIFO 算法的 BLEADY 现象；设计具有局部性特点的测试数据，分
 别运行实现的 2 种算法，比较缺页率，并进行分析。
-![image-20231025155617546](lab2%5Cimage-20231025155617546.png)
+
 
 基本代码（FIFO）
 
@@ -529,7 +523,8 @@ int main(){
     return 0;
 }
 ```
-
+![Untitled](picture/2-3fifo.png)
+![Untitled](picture/2-3fifo1.png)
 基本代码（LRU）
 ```c
 #include <stdio.h>
@@ -725,3 +720,5 @@ int main() {
     return 0;
 }
 ```
+![Untitled](picture/2-3lru.png)
+![Untitled](picture/2-3lru1.png)
